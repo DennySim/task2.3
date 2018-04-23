@@ -32,8 +32,9 @@ def count_unique_words_more_six_letters():
 
 
 def print_top_ten_words():
+    counted_each_word_quantity = count_unique_words_more_six_letters()
     for i in range(10):
-        print(i + 1, ddd[i])
+        print(i + 1, counted_each_word_quantity[i])
 
 
 print_top_ten_words()
