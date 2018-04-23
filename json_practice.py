@@ -4,20 +4,19 @@ def input_data():
     return file_with_text
 
 
-def top_ten_word():
+def sum_of_all_news():
     import json
-    import chardet
-    from pprint import pprint
 
     with open(input_data(), encoding = "utf-8" ) as f:
-
         text = json.load(f)
-
         all_text = ""
         for news in text['rss']['channel']['items']:
             all_text += news['description']
+    return all_text
 
-        listed_text = all_text.split()
+
+def count_unique_words_more_six_letters():
+        listed_text = sum_of_all_news().split()
         dict_used_in_text = set(listed_text)
 
         top_more_six_letter_list = []
@@ -28,9 +27,13 @@ def top_ten_word():
         counted_each_word_quantity = []
         for word in top_more_six_letter_list:
             counted_each_word_quantity.append([listed_text.count(word), word])
-            counted_each_word_quantity.sort(reverse=True)
+        counted_each_word_quantity.sort(reverse = True)
+        return counted_each_word_quantity
 
-    for i in range(0, 10):
-        print(i + 1, counted_each_word_quantity[i])
 
-top_ten_word()
+def print_top_ten_words():
+    for i in range(10):
+        print(i + 1, ddd[i])
+
+
+print_top_ten_words()
