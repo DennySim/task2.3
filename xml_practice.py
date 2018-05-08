@@ -1,18 +1,27 @@
+from xml import etree
+import xml.etree.ElementTree as ET
+import chardet
+
+
 def input_data():
-    print('Введите имя файла')
-    file_with_text = input()
+    file_with_text = ['newscy.xml', 'newsfr.xml', 'newsit.xml', 'newsafr.xml']
     return file_with_text
 
 
-def  sum_of_all_news():
-    import xml.etree.ElementTree as ET
-
-    tree = ET.parse(input_data())
-    all_msg = tree.findall('channel/item/description')
-
+def sum_of_all_news():
     all_text = ""
-    for desc in all_msg:
-        all_text += desc.text
+
+    for file in input_data():
+        with open(file, 'rb') as ff:
+            text = ff.read()
+            text_encoding = chardet.detect(text)
+
+        parser = etree.ElementTree.XMLParser(encoding=text_encoding['encoding'])
+        tree = ET.parse(file, parser)
+        all_msg = tree.findall('channel/item/description')
+
+        for desc in all_msg:
+            all_text += desc.text
     return all_text
 
 
@@ -39,3 +48,5 @@ def print_top_ten_words():
 
 
 print_top_ten_words()
+
+

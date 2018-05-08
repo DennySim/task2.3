@@ -1,17 +1,23 @@
+import json
+import chardet
+
+
 def input_data():
-    print('Введите имя файла')
-    file_with_text = input()
+    file_with_text = ['newsafr.json', 'newsit.json', 'newscy.json', 'newsfr.json']
     return file_with_text
 
 
 def sum_of_all_news():
-    import json
+    all_text = ""
+    for file in input_data():
+        with open(file, 'rb') as f:
+            temp_f = f.read()
+            text_encoding = chardet.detect(temp_f)
+        with open(file, encoding=text_encoding['encoding']) as f:
+            text = json.load(f)
 
-    with open(input_data(), encoding = "utf-8" ) as f:
-        text = json.load(f)
-        all_text = ""
-        for news in text['rss']['channel']['items']:
-            all_text += news['description']
+            for news in text['rss']['channel']['items']:
+                all_text += news['description']
     return all_text
 
 
