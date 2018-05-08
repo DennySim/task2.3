@@ -8,25 +8,25 @@ def input_data():
     return file_with_text
 
 
-def sum_of_all_news():
+def sum_of_all_news(file):
     all_text = ""
 
-    for file in input_data():
-        with open(file, 'rb') as ff:
-            text = ff.read()
-            text_encoding = chardet.detect(text)
+    # for file in input_data():
+    with open(file, 'rb') as ff:
+        text = ff.read()
+        text_encoding = chardet.detect(text)
 
-        parser = etree.ElementTree.XMLParser(encoding=text_encoding['encoding'])
-        tree = ET.parse(file, parser)
-        all_msg = tree.findall('channel/item/description')
+    parser = etree.ElementTree.XMLParser(encoding=text_encoding['encoding'])
+    tree = ET.parse(file, parser)
+    all_msg = tree.findall('channel/item/description')
 
-        for desc in all_msg:
-            all_text += desc.text
+    for desc in all_msg:
+        all_text += desc.text
     return all_text
 
 
-def count_unique_words_more_six_letters():
-    listed_text = sum_of_all_news().split()
+def count_unique_words_more_six_letters(file):
+    listed_text = sum_of_all_news(file).split()
     dict_used_in_text = set(listed_text)
 
     top_more_six_letter_list = []
@@ -42,9 +42,11 @@ def count_unique_words_more_six_letters():
 
 
 def print_top_ten_words():
-    counted_each_word_quantity = count_unique_words_more_six_letters()
-    for i in range(10):
-        print(i + 1, counted_each_word_quantity[i])
+    for file in input_data():
+        print(file)
+        counted_each_word_quantity = count_unique_words_more_six_letters(file)
+        for i in range(10):
+            print(i + 1, counted_each_word_quantity[i])
 
 
 print_top_ten_words()
